@@ -14,7 +14,11 @@ file(GLOB Jyamithika_core_Primitives_source CONFIGURE_DEPENDS Jyamithika/Core/Pr
 file(GLOB Jyamithika_core_source CONFIGURE_DEPENDS Jyamithika/Core/*.cpp 
     Jyamithika/Core/*.c Jyamithika/Base/*.h)
 
+file(GLOB Jyamithika_tree_source CONFIGURE_DEPENDS Jyamithika/Trees/*.cpp 
+    Jyamithika/Trees/*.c Jyamithika/Trees/*.h)
+
 add_library(Jyamithika OBJECT ${Jyamithika_core_base_source}
                             ${Jyamithika_core_Primitives_source}
-                            ${Jyamithika_core_source})
+                            ${Jyamithika_core_source}
+                            ${Jyamithika_tree_source})
 
