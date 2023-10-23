@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
-#include "Core\Primitives\Point.h"
-#include "Core\Primitives\Polygon.h"
-#include "Core\Primitives\Bounds.h"
+#include "Core/Primitives/Point.h"
+#include "Core/Primitives/Polygon.h"
+#include "Core/Primitives/Bounds.h"
 
 // Implementation of Voronoi diagram calculation and related utility functions.
 namespace jmk

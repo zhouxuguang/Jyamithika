@@ -1,10 +1,10 @@
 #include "Convexhull.h"
-#include "Core\GeoUtils.h"
-#include "Core\Distance.h"
-#include "Core\Inclusion.h"
+#include "Core/GeoUtils.h"
+#include "Core/Distance.h"
+#include "Core/Inclusion.h"
 
 #include <algorithm>
-#include <Iterator>
+#include <iterator>
 #include <list>
 
 using namespace jmk;

@@ -3,9 +3,9 @@
 #include <vector>
 #include <iostream>
 
-#include "Core\Primitives\Point.h"
-#include "Core\Primitives\Polygon.h"
-#include "Core\Primitives\Polyhedron.h"
+#include "Core/Primitives/Point.h"
+#include "Core/Primitives/Polygon.h"
+#include "Core/Primitives/Polyhedron.h"
 
 namespace jmk 
 {

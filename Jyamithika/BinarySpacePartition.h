@@ -1,12 +1,12 @@
 #pragma once
 
 
-#include "Core\Base\Core.h"
-#include "Core\Base\Vector.h"
-#include "Core\Primitives\Line.h"
-#include "Core\Primitives\Point.h"
-#include "Core\GeoUtils.h"
-#include "Core\Intersection.h"
+#include "Core/Base/Core.h"
+#include "Core/Base/Vector.h"
+#include "Core/Primitives/Line.h"
+#include "Core/Primitives/Point.h"
+#include "Core/GeoUtils.h"
+#include "Core/Intersection.h"
 
 #include <vector>
 #include <algorithm>

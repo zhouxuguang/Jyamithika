@@ -4,10 +4,10 @@
 #include <queue>
 #include <list>
 #include <Iterator>
-#include "Core\Primitives\Line.h"
-#include "Core\Primitives\Segment.h"
-#include "Core\Intersection.h"
-#include "Core\Distance.h"
+#include "Core/Primitives/Line.h"
+#include "Core/Primitives/Segment.h"
+#include "Core/Intersection.h"
+#include "Core/Distance.h"
 
 using namespace jmk;
 

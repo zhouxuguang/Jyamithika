@@ -3,8 +3,8 @@
 #include <vector>
 #include <iostream>
 
-#include "Core\Primitives\Point.h"
-#include "Core\Primitives\PolygonDCEL.h"
+#include "Core/Primitives/Point.h"
+#include "Core/Primitives/PolygonDCEL.h"
 #include "MonotonePartition.h"
 
 namespace jmk {
