@@ -2,9 +2,8 @@
 #include <array>
 #include <iostream>
 
-// TODO : Vector should move to ../Core
 
-#include "../Base/Core.h"
+#include "Core.h"
 
 namespace jmk {
 
@@ -24,7 +23,6 @@ namespace jmk {
 		std::array<coordinate_type, dimensions> coords = {};
 		bool is_normalized = false;
 
-		template<typename coordinate_type, size_t dimensions>
 		friend float dotProduct(const Vector<coordinate_type, dimensions>& v1, const Vector<coordinate_type, dimensions>& v2);
 
 	public:

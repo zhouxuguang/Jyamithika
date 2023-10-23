@@ -3,7 +3,8 @@
 
 #define _USE_MATH_DEFINES
 
-#include<math.h>
+#include <math.h>
+#include <float.h>
 
 namespace jmk {
 #define TOLERANCE 0.0000000001
