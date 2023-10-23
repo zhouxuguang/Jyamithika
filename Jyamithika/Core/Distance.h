@@ -1,8 +1,8 @@
 #pragma once
 // Include functions to calculate distance between different geometric promitives
-#include "Primitives\Point.h"
-#include "Primitives\Line.h"
-#include "Primitives\Plane.h"
+#include "Primitives/Point.h"
+#include "Primitives/Line.h"
+#include "Primitives/Plane.h"
 
 namespace jmk {
 

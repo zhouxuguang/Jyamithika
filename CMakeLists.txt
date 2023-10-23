@@ -5,8 +5,16 @@ project (Jyamithika)
 
 find_package(OpenGL REQUIRED)
 
-file(GLOB_RECURSE Jyamithika_core_base_source CONFIGURE_DEPENDS Jyamithika/Core/Base/*.cpp 
+file(GLOB Jyamithika_core_base_source CONFIGURE_DEPENDS Jyamithika/Core/Base/*.cpp 
     Jyamithika/Core/Base/*.c Jyamithika/Core/Base/*.h)
 
-add_library(Jyamithika OBJECT ${Jyamithika_core_base_source})
+file(GLOB Jyamithika_core_Primitives_source CONFIGURE_DEPENDS Jyamithika/Core/Primitives/*.cpp 
+    Jyamithika/Core/Primitives/*.c Jyamithika/Primitives/Base/*.h)
+
+file(GLOB Jyamithika_core_source CONFIGURE_DEPENDS Jyamithika/Core/*.cpp 
+    Jyamithika/Core/*.c Jyamithika/Base/*.h)
+
+add_library(Jyamithika OBJECT ${Jyamithika_core_base_source}
+                            ${Jyamithika_core_Primitives_source}
+                            ${Jyamithika_core_source})
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "Primitives\Line.h"
-#include "Primitives\Plane.h"
+#include "Primitives/Line.h"
+#include "Primitives/Plane.h"
 
 namespace jmk {
 	float AngleLines2D( const Line2d& l1, const Line2d l2);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Primitives\Point.h"
+#include "Primitives/Point.h"
 
 namespace jmk {
 
