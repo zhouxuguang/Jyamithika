@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <vector>
 
-#include "Jyamithika\Core\Primitives\Point.h"
-#include "Jyamithika\Core\Primitives\Line.h"
-#include "Jyamithika\Core\Primitives\Polygon.h"
-#include "Jyamithika\Core\Primitives\PolygonDCEL.h"
-#include "Jyamithika\Core\Primitives\Segment.h"
+#include "Jyamithika/Core/Primitives/Point.h"
+#include "Jyamithika/Core/Primitives/Line.h"
+#include "Jyamithika/Core/Primitives/Polygon.h"
+#include "Jyamithika/Core/Primitives/PolygonDCEL.h"
+#include "Jyamithika/Core/Primitives/Segment.h"
 
-#include "Jyamithika\Trees\KDTree.h"
+#include "Jyamithika/Trees/KDTree.h"
 
 //float Rect2dPoints[] = {
 //	-0.008f, -0.008f,  // left  

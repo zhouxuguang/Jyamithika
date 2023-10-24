@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-#include "GraphicUtils\Geometry\GLine.h"
-#include "Jyamithika\Core\Primitives\Polyhedron.h"
+#include "GraphicUtils/Geometry/GLine.h"
+#include "Jyamithika/Core/Primitives/Polyhedron.h"
 
 float colors[36] = {
 	0.1 , 0.2 , 0.3, //1

@@ -25,16 +25,23 @@ file(GLOB glad_source CONFIGURE_DEPENDS Graphics/Externals/GLAD/src/*.cpp)
 file(GLOB imgui_source CONFIGURE_DEPENDS Graphics/GraphicUtils/Imgui/*.cpp 
     Graphics/GraphicUtils/Imgui/*.h)
 
+file(GLOB GraphicUtils_source CONFIGURE_DEPENDS Graphics/GraphicUtils/*.cpp 
+    Graphics/GraphicUtils/*.h)
+
 add_library(Jyamithika OBJECT ${Jyamithika_core_base_source}
                             ${Jyamithika_core_Primitives_source}
                             ${Jyamithika_core_source}
                             ${Jyamithika_tree_source}
                             ${Jyamithika_source}
                             ${glad_source}
-                            ${imgui_source})
+                            ${imgui_source}
+                            ${GraphicUtils_source})
 
-target_include_directories(Jyamithika PUBLIC Graphics/Externals/GLFW/include
-                                            Graphics/Externals/GLAD/include)
+target_include_directories(Jyamithika PUBLIC
+                                            ${CMAKE_SOURCE_DIR}
+                                            Graphics/Externals/GLFW/include
+                                            Graphics/Externals/GLAD/include
+                                            Graphics/Externals)
 target_link_directories(Jyamithika PUBLIC Graphics/Externals/GLFW/libs/mac)
 target_link_libraries(Jyamithika PUBLIC glfw3)
 

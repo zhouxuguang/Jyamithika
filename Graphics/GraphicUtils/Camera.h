@@ -1,7 +1,7 @@
 #pragma once
-#include "glad\glad.h"
-#include "GLM\glm.hpp"
-#include "GLM\gtc\matrix_transform.hpp"
+#include "glad/glad.h"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
 
 #include <vector>
 
@@ -40,8 +40,7 @@ public:
 	float Zoom;
 
 	// Constructor with vectors
-	Camera(glm::vec3 position, glm::vec3 up ,
-		float yaw, float pitch);
+	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
 	
 	// Constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
