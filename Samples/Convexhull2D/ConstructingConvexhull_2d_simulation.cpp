@@ -95,9 +95,10 @@ int main(void)
 		if (!glfwInit())
 			return -1;
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 		/* Create a windowed mode window and its OpenGL context */
 		window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Convexhull 2D", NULL, NULL);
@@ -131,7 +132,7 @@ int main(void)
 		//ImGui::StyleColorsClassic();
 
 		// Setup Platform/Renderer bindings
-		ImGui_ImplOpenGL3_Init("#version 130");
+		ImGui_ImplOpenGL3_Init("#version 330");
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 	}
 
@@ -168,8 +169,8 @@ int main(void)
 	VertexBuffer VBO_edge_grahms(convexhull_grahams_edge_data.data(), convexhull_grahams_edge_data.size());
 	VAO_convexhullgrahams.addVertexLayout(0, 2, GL_FALSE, 2 * sizeof(float), 0);
 
-	ShaderProgram shader("C:/Users/intellect/source/repos/Jyamithika/Graphics/GraphicUtils/Shaders/triangle2d.shader");
-	ShaderProgram line_shader("C:/Users/intellect/source/repos/Jyamithika/Graphics/GraphicUtils/Shaders/generic_line.shader");
+	ShaderProgram shader("/Users/zhouxuguang/work/source/study/jyamithika/Graphics/GraphicUtils/Shaders/triangle2d.shader");
+	ShaderProgram line_shader("/Users/zhouxuguang/work/source/study/jyamithika/Graphics/GraphicUtils/Shaders/generic_line.shader");
 	unsigned int line_color_loc = line_shader.getUniformId("line_color");
 
 	glm::vec3 red = glm::vec3(0.95f, 0.02f, 0.03f);
