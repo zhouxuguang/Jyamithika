@@ -17,14 +17,12 @@ namespace jmk {
 	template <typename coordinate_type, size_t dimensions = DIM3 >
 	class Vector 
 	{
+	public:
 		static_assert(std::is_arithmetic_v<coordinate_type>, "Vector class can only store integral or floating points values");
 		static_assert(dimensions >= DIM2, "Vector dimension atleast should be 2D");
 
 		std::array<coordinate_type, dimensions> coords = {};
 		bool is_normalized = false;
-
-		friend float dotProduct(const Vector<coordinate_type, dimensions>& v1, const Vector<coordinate_type, dimensions>& v2);
-
 	public:
 		Vector() {}
 
@@ -209,7 +207,8 @@ namespace jmk {
 
 	
 	template<typename coordinate_type, size_t dimensions>
-	float dotProduct(const Vector<coordinate_type, dimensions>& v1, const Vector<coordinate_type, dimensions>& v2)
+	inline float dotProduct(const Vector<coordinate_type, dimensions>& v1, 
+	const Vector<coordinate_type, dimensions>& v2)
 	{
 		if (v1.coords.size() != v2.coords.size())
 			return FLT_MIN;

@@ -8,7 +8,8 @@ VertexArray::VertexArray()
 
 void VertexArray::addVertexLayout(int _index, int _numberOfElements, bool _isNormalized, int _stride_bytes, int _first_offset_bytes)
 {
-	glVertexAttribPointer(_index, _numberOfElements, GL_FLOAT, _isNormalized, _stride_bytes, (void*)_first_offset_bytes);
+	glVertexAttribPointer(_index, _numberOfElements, GL_FLOAT, _isNormalized, _stride_bytes, 
+		(void*)(uint64_t)_first_offset_bytes);
 	glEnableVertexAttribArray(_index);
 }
 
