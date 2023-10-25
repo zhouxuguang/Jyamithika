@@ -20,7 +20,7 @@ file(GLOB Jyamithika_tree_source CONFIGURE_DEPENDS Jyamithika/Trees/*.cpp
 file(GLOB Jyamithika_source CONFIGURE_DEPENDS Jyamithika/*.cpp 
     Jyamithika/*.c Jyamithika/*.h)
 
-file(GLOB glad_source CONFIGURE_DEPENDS Graphics/Externals/GLAD/src/*.cpp)
+file(GLOB glad_source CONFIGURE_DEPENDS Graphics/Externals/GLAD/src/*.c)
 
 file(GLOB imgui_source CONFIGURE_DEPENDS Graphics/GraphicUtils/Imgui/*.cpp 
     Graphics/GraphicUtils/Imgui/*.h)
@@ -43,5 +43,14 @@ target_include_directories(Jyamithika PUBLIC
                                             Graphics/Externals/GLAD/include
                                             Graphics/Externals)
 target_link_directories(Jyamithika PUBLIC Graphics/Externals/GLFW/libs/mac)
-target_link_libraries(Jyamithika PUBLIC glfw3)
+#target_link_libraries(Jyamithika PUBLIC glfw3)
 
+add_executable(Convexhull2D Samples/Convexhull2D/ConstructingConvexhull_2d_simulation.cpp)
+
+target_include_directories(Convexhull2D PUBLIC
+                                            ${CMAKE_SOURCE_DIR}
+                                            ${CMAKE_SOURCE_DIR}/Graphics)
+target_link_directories(Convexhull2D PUBLIC Graphics/Externals/GLFW/libs/mac)
+
+target_link_libraries(Convexhull2D PRIVATE Jyamithika 
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)

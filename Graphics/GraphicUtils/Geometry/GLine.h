@@ -86,7 +86,7 @@ public:
         MVP = mvp;
     }
 
-    int setColor(glm::vec3 color) {
+    void setColor(glm::vec3 color) {
         lineColor = color;
     }
 

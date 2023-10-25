@@ -1,27 +1,27 @@
-#include "glad\glad.h"
-#include <GLFW\glfw3.h>
+#include "glad/glad.h"
+#include <GLFW/glfw3.h>
 #include <array>
 
-#include "GLM\glm.hpp"
-#include "GLM\gtc\matrix_transform.hpp"
-#include "GLM\gtc\type_ptr.hpp"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtc/type_ptr.hpp"
 
-#include "GraphicUtils\Imgui\imgui.h"
-#include "GraphicUtils\Imgui\imgui_impl_glfw.h"
-#include "GraphicUtils\Imgui\imgui_impl_opengl3.h"
+#include "GraphicUtils/Imgui/imgui.h"
+#include "GraphicUtils/Imgui/imgui_impl_glfw.h"
+#include "GraphicUtils/Imgui/imgui_impl_opengl3.h"
 
-#include "GraphicUtils\ShaderProgram.h"
-#include "GraphicUtils\VertexArray.h"
-#include "GraphicUtils\VertexBuffer.h"
-#include "GraphicUtils\GraphicUtils.h"
+#include "GraphicUtils/ShaderProgram.h"
+#include "GraphicUtils/VertexArray.h"
+#include "GraphicUtils/VertexBuffer.h"
+#include "GraphicUtils/GraphicUtils.h"
 
-#include "GraphicUtils\Geometry\GFace.h"
-#include "GraphicUtils\Geometry\GPoint.h"
-#include "GraphicUtils\Geometry\GLine.h"
+#include "GraphicUtils/Geometry/GFace.h"
+#include "GraphicUtils/Geometry/GPoint.h"
+#include "GraphicUtils/Geometry/GLine.h"
 
-#include "Jyamithika\Core\Primitives\Point.h"
-#include "Jyamithika\Core\Primitives\PolygonDCEL.h"
-#include "Jyamithika\Convexhull.h"
+#include "Jyamithika/Core/Primitives/Point.h"
+#include "Jyamithika/Core/Primitives/PolygonDCEL.h"
+#include "Jyamithika/Convexhull.h"
 
 #include <algorithm>
 #include <chrono>
