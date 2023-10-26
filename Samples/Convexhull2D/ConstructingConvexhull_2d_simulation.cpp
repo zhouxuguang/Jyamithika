@@ -14,6 +14,7 @@
 #include "GraphicUtils/VertexArray.h"
 #include "GraphicUtils/VertexBuffer.h"
 #include "GraphicUtils/GraphicUtils.h"
+#include "GraphicUtils/ShaderString.h"
 
 #include "GraphicUtils/Geometry/GFace.h"
 #include "GraphicUtils/Geometry/GPoint.h"
@@ -169,8 +170,8 @@ int main(void)
 	VertexBuffer VBO_edge_grahms(convexhull_grahams_edge_data.data(), convexhull_grahams_edge_data.size());
 	VAO_convexhullgrahams.addVertexLayout(0, 2, GL_FALSE, 2 * sizeof(float), 0);
 
-	ShaderProgram shader("/Users/zhouxuguang/work/source/study/jyamithika/Graphics/GraphicUtils/Shaders/triangle2d.shader");
-	ShaderProgram line_shader("/Users/zhouxuguang/work/source/study/jyamithika/Graphics/GraphicUtils/Shaders/generic_line.shader");
+	ShaderProgram shader(triangle2d_shader);
+	ShaderProgram line_shader(generic_line_shader);
 	unsigned int line_color_loc = line_shader.getUniformId("line_color");
 
 	glm::vec3 red = glm::vec3(0.95f, 0.02f, 0.03f);

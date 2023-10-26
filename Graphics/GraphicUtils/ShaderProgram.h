@@ -16,9 +16,9 @@ class ShaderProgram {
 		std::string geometry_shader;
 	};
 
-	shader_program_source parseShader(const std::string & file_path)
+	shader_program_source parseShader(const std::string & shaderString)
 	{
-		std::ifstream stream(file_path);
+        std::stringstream stream(shaderString);
 
 		enum class shader_type
 		{
@@ -111,7 +111,7 @@ class ShaderProgram {
 
 public:
 
-	ShaderProgram(const std::string& file_path);
+	ShaderProgram(const std::string& shaderString);
 
 	void deleteShader();
 
