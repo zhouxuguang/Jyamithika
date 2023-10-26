@@ -27,7 +27,7 @@ class ShaderProgram {
 
 		std::string line;
 		std::stringstream ss[3];
-		shader_type type;
+		shader_type type = shader_type::NONE;
 
 		while (std::getline(stream, line))
 		{
@@ -48,7 +48,10 @@ class ShaderProgram {
 			}
 			else
 			{
-				ss[(int)type] << line << '\n';
+                if (type != shader_type::NONE)
+                {
+                    ss[(int)type] << line << '\n';
+                }
 			}
 		}
 

@@ -1,7 +1,8 @@
 
 #include "ShaderString.h"
 
-std::string triangle2d_shader = R"(#shader vertex
+std::string triangle2d_shader = R"(
+#shader vertex
 #version 330 core
 layout(location = 0) in vec2 position;
 
@@ -22,7 +23,8 @@ void main()
 }
 )";
 
-std::string generic_line_shader = R"(#shader vertex
+std::string generic_line_shader = R"(
+#shader vertex
 #version 330 core
 layout(location = 0) in vec2 position;
 
