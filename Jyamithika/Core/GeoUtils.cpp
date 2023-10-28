@@ -153,6 +153,21 @@ bool jmk::right(const Point3d& a, const Point3d& b, const Point3d& c)
 	return orientation3d(a, b, c) == RELATIVE_POSITION::RIGHT;
 }
 
+bool jmk::right(const Point2d& a, const Point2d& b, const Point2d& c)
+{
+    return orientation2d(a, b, c) == RELATIVE_POSITION::RIGHT ||
+        orientation2d(a, b, c) == RELATIVE_POSITION::BETWEEN;
+}
+
+bool jmk::pallel(const Point2d& a, const Point2d& b, const Point2d& c)
+{
+	return orientation2d(a, b, c) == RELATIVE_POSITION::RIGHT ||
+        orientation2d(a, b, c) == RELATIVE_POSITION::BEYOND ||
+		orientation2d(a, b, c) == RELATIVE_POSITION::BETWEEN ||
+		orientation2d(a, b, c) == RELATIVE_POSITION::ORIGIN ||
+		orientation2d(a, b, c) == RELATIVE_POSITION::DESTINATION;
+}
+
 bool jmk::leftOrBeyond(const Point2d& a, const Point2d& b, const Point2d& c)
 {
 	int position = orientation2d(a, b, c);

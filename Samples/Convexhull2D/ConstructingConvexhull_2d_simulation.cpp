@@ -87,9 +87,12 @@ void setup_pointcloud_2(std::vector<jmk::Point2d>& points)
 
 void setup_pointcloud_3(std::vector<jmk::Point2d>& points)
 {
+    points.push_back(jmk::Point2d(-0.3, -0.4));
     points.push_back(jmk::Point2d(-0.5, -0.5));
     points.push_back(jmk::Point2d(0.0, 0.0));
+    points.push_back(jmk::Point2d(0.8, -0.5));
     points.push_back(jmk::Point2d(0.5, -0.5));
+    //points.push_back(jmk::Point2d(0.8, -0.5));
     points.push_back(jmk::Point2d(0.0, 0.5));
 }
 
@@ -162,7 +165,7 @@ int main(void)
 //	get2DLinePointsFromDCEL2d(edge_list, convexhull_giftwrapping_edge_data);
 
     points.clear();
-    setup_pointcloud(points);
+    setup_pointcloud_3(points);
     point_data.clear();
     getReactanglePointClouds(points, point_data);
 	jmk::convexhull2DGrahams(points, hull_points_grahams);

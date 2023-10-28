@@ -31,6 +31,10 @@ namespace jmk
 	// Predicate to determine whether the [Point c] is right to the segment [a b]
 	bool right(const Point3d& a, const Point3d& b, const Point3d& c);
 
+	bool right(const Point2d& a, const Point2d& b, const Point2d& c);
+
+	bool pallel(const Point2d& a, const Point2d& b, const Point2d& c);
+
 	// Predicate to determine whether the[Point c] is left to the segment[a b]
 	bool leftOrBeyond(const Point2d& a, const Point2d& b, const Point2d& c);
 

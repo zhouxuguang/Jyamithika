@@ -2,6 +2,7 @@
 #include "Core/GeoUtils.h"
 #include "Core/Distance.h"
 #include "Core/Inclusion.h"
+#include "Core/Distance.h"
 
 #include <algorithm>
 #include <iterator>
@@ -153,7 +154,8 @@ void jmk::convexhull2DGrahams(std::vector<Point2d>& _points, std::vector<Point2d
     //其余的点按照到极点的角度大小排序，相同的情况下，距离近的优先
     std::sort(std::next(_points.begin()), _points.end(), [&](const Point2d& a, const Point2d& b)
     {
-        if (left(_points[0], a, b))
+        if (left(_points[0], a, b) || (pallel(_points[0], a, b) &&
+                                       jmk::distance(_points[0], a) < jmk::distance(_points[0], b)))
         {
             return true;
         }
@@ -179,14 +181,18 @@ void jmk::convexhull2DGrahams(std::vector<Point2d>& _points, std::vector<Point2d
         resultStack.pop();
         Point2d &secondTop = resultStack.top();
         resultStack.push(top);
-        if (left(secondTop, top, tempStack.top()))
+        if (!right(secondTop, top, tempStack.top()))
         {
             resultStack.push(tempStack.top());
             tempStack.pop();
         }
         else
         {
-            resultStack.pop();
+            //只有当结果的S栈中的元素个数大于2时才出栈
+            if (resultStack.size() > 2)
+            {
+                resultStack.pop();
+            }
         }
     }
     

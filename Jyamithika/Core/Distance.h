@@ -21,7 +21,7 @@ namespace jmk {
 
 	float distance(Point3d& p1, Point3d& p2);
 
-	float distance(Point2d& p1, Point2d& p2);
+	float distance(const Point2d& p1, const Point2d& p2);
 
 	float distance(Planef& p, Point3d& Q);
 }
