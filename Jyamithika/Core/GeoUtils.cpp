@@ -161,7 +161,7 @@ bool jmk::right(const Point2d& a, const Point2d& b, const Point2d& c)
 
 bool jmk::pallel(const Point2d& a, const Point2d& b, const Point2d& c)
 {
-	return orientation2d(a, b, c) == RELATIVE_POSITION::RIGHT ||
+	return 
         orientation2d(a, b, c) == RELATIVE_POSITION::BEYOND ||
 		orientation2d(a, b, c) == RELATIVE_POSITION::BETWEEN ||
 		orientation2d(a, b, c) == RELATIVE_POSITION::ORIGIN ||

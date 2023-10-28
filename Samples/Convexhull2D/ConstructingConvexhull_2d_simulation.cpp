@@ -165,7 +165,7 @@ int main(void)
 //	get2DLinePointsFromDCEL2d(edge_list, convexhull_giftwrapping_edge_data);
 
     points.clear();
-    setup_pointcloud_3(points);
+    setup_pointcloud(points);
     point_data.clear();
     getReactanglePointClouds(points, point_data);
 	jmk::convexhull2DGrahams(points, hull_points_grahams);
