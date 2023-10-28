@@ -202,7 +202,7 @@ void jmk::convexhull2DGrahams(std::vector<Point2d>& _points, std::vector<Point2d
         resultStack.pop();
     }
     
-    //将顶点逆序变为顺时针
+    //将顶点逆序变为逆时针
     std::reverse(_convex.begin(), _convex.end());
 	
 }
