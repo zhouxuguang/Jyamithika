@@ -85,6 +85,14 @@ void setup_pointcloud_2(std::vector<jmk::Point2d>& points)
 	points.push_back(jmk::Point2d(0.4, 0.6));
 }
 
+void setup_pointcloud_3(std::vector<jmk::Point2d>& points)
+{
+    points.push_back(jmk::Point2d(-0.5, -0.5));
+    points.push_back(jmk::Point2d(0.0, 0.0));
+    points.push_back(jmk::Point2d(0.5, -0.5));
+    points.push_back(jmk::Point2d(0.0, 0.5));
+}
+
 int main(void)
 {
 	std::srand(std::time(nullptr));
@@ -148,14 +156,18 @@ int main(void)
 	setup_pointcloud(points);
 	getReactanglePointClouds(points, point_data);
 
-	jmk::convexhull2DGiftwrapping(points,hull_points_giftwrapping);
-	jmk::Polygon2d polygon1(hull_points_giftwrapping);
-	auto edge_list = polygon1.getEdgeList();
-	get2DLinePointsFromDCEL2d(edge_list, convexhull_giftwrapping_edge_data);
+	//jmk::convexhull2DGiftwrapping(points,hull_points_giftwrapping);
+//	jmk::Polygon2d polygon1(hull_points_giftwrapping);
+//	auto edge_list = polygon1.getEdgeList();
+//	get2DLinePointsFromDCEL2d(edge_list, convexhull_giftwrapping_edge_data);
 
-	jmk::convexhull2DModifiedGrahams(points, hull_points_grahams);
+    points.clear();
+    setup_pointcloud(points);
+    point_data.clear();
+    getReactanglePointClouds(points, point_data);
+	jmk::convexhull2DGrahams(points, hull_points_grahams);
 	jmk::Polygon2d polygon2(hull_points_grahams);
-	edge_list = polygon2.getEdgeList();
+    auto edge_list = polygon2.getEdgeList();
 	get2DLinePointsFromDCEL2d(edge_list, convexhull_grahams_edge_data);
 
 	VertexArray VAO_points;

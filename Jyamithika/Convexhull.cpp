@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 #include <list>
+#include <stack>
 
 using namespace jmk;
 
@@ -130,12 +131,82 @@ void jmk::convexhull2DModifiedGrahams(std::vector<Point2d>& _points,
 	_convex.insert(_convex.end(), l_lower.begin(), l_lower.end());
 }
 
+void jmk::convexhull2DGrahams(std::vector<Point2d>& _points, std::vector<Point2d>& _convex)
+{
+	if (_points.size() <= 3)
+		return;
+
+	int index = 0;
+
+	//选择出一个极点，x轴坐标最小的点，x坐标相同，选y最小的点
+	for(int i = 1; i < _points.size(); i++) 
+	{
+		if ( _points[i][X] < _points[index][X]
+			|| ((_points[i][X] == _points[index][X]) 
+			&& (_points[i][Y] < _points[index][Y])) ) 
+		{
+			index = i;
+		}
+	}
+    
+    std::swap(_points[0], _points[index]);
+    //其余的点按照到极点的角度大小排序，相同的情况下，距离近的优先
+    std::sort(std::next(_points.begin()), _points.end(), [&](const Point2d& a, const Point2d& b)
+    {
+        if (left(_points[0], a, b))
+        {
+            return true;
+        }
+        return false;
+    });
+    
+    //将排序好的点前两个点放入栈中
+    std::stack<Point2d> resultStack;
+    resultStack.push(_points[0]);
+    resultStack.push(_points[1]);
+    
+    //将其余的点按照相反的顺序放入另外一个栈中
+    std::stack<Point2d> tempStack;
+    for (int i = _points.size() - 1; i >= 2; i --)
+    {
+        tempStack.push(_points[i]);
+    }
+    
+    //按照顺序扫描其它点
+    while (!tempStack.empty())
+    {
+        Point2d &top = resultStack.top();
+        resultStack.pop();
+        Point2d &secondTop = resultStack.top();
+        resultStack.push(top);
+        if (left(secondTop, top, tempStack.top()))
+        {
+            resultStack.push(tempStack.top());
+            tempStack.pop();
+        }
+        else
+        {
+            resultStack.pop();
+        }
+    }
+    
+    while (!resultStack.empty())
+    {
+        _convex.push_back(resultStack.top());
+        resultStack.pop();
+    }
+    
+    //将顶点逆序变为顺时针
+    std::reverse(_convex.begin(), _convex.end());
+	
+}
+
 void jmk::convexhull2DIncremental(std::vector<Point3d>& _points, std::vector<Point3d>& _convex)
 {
 	//Sort the points left to right order
-	std::sort(_points.begin(), _points.end(), [](const Point3d& a, const Point3d& b) {
-		if ((a[X] < b[X])
-			|| (a[X] == b[X]) && (a[Y] < b[Y]))
+	std::sort(_points.begin(), _points.end(), [](const Point3d& a, const Point3d& b) 
+	{
+		if ((a[X] < b[X]) || (a[X] == b[X]) && (a[Y] < b[Y]))
 		{
 			return true;
 		}

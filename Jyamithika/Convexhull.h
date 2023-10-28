@@ -24,6 +24,8 @@ namespace jmk
 	//				 No duplicate points.
 	void convexhull2DModifiedGrahams(std::vector<Point2d>& _points, std::vector<Point2d>& _convex);
 
+	void convexhull2DGrahams(std::vector<Point2d>& _points, std::vector<Point2d>& _convex);
+
 	// Compute the points in the convex hull in incremental way. Assume the points are in XY 2D plane.
 	// Pre order the points from left to right to reduce the time
 	// Explain why we need pre sorting 
