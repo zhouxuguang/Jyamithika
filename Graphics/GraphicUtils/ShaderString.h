@@ -7,5 +7,6 @@
 
 extern std::string triangle2d_shader;
 extern std::string generic_line_shader;
+extern std::string basic_poly_2d_shader;
 
 #endif

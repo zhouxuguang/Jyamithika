@@ -54,3 +54,13 @@ target_link_directories(Convexhull2D PUBLIC Graphics/Externals/GLFW/libs/mac)
 
 target_link_libraries(Convexhull2D PRIVATE Jyamithika 
     ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
+
+add_executable(PolygonTriangulation Samples/PolygonTriangulation/PolygonTriangulationSimulation.cpp)
+
+target_include_directories(PolygonTriangulation PUBLIC
+                                            ${CMAKE_SOURCE_DIR}
+                                            ${CMAKE_SOURCE_DIR}/Graphics)
+target_link_directories(PolygonTriangulation PUBLIC Graphics/Externals/GLFW/libs/mac)
+
+target_link_libraries(PolygonTriangulation PRIVATE Jyamithika 
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
