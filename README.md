@@ -20,51 +20,51 @@ I have added set of simulations for demonstration purposes. These simulations us
 
 ### Polygon Triangulation with monotone partitions
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/triangulation_monotone_partition.png" width="600" height="600">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/triangulation_faces.png" width="600" height="600">
+<img src="Samples/Images/triangulation_monotone_partition.png" width="600" height="600">
+<img src="Samples/Images/triangulation_faces.png" width="600" height="600">
 </p>
 
 ### Polygon Triangulation using ear clipping method
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/triangulation_ear_clipping.png" width="600" height="600">
+<img src="Samples/Images/triangulation_ear_clipping.png" width="600" height="600">
 </p>
 
 ### Convexhull2D
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/convexhull2d.png" width="600" height="600">
+<img src="Samples/Images/convexhull2d.png" width="600" height="600">
 </p>
 
 
 ### Convexhull3D
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/convexhull3d_sample.jpg" width="600" height="600">
+<img src="Samples/Images/convexhull3d_sample.jpg" width="600" height="600">
 </p>
 
 ### Voronoi Diagram 2D
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/voronoi_sim_diagram.png" width="600" height="600">
+<img src="Samples/Images/voronoi_sim_diagram.png" width="600" height="600">
 </p>
 
 ### Delaunay triangulation  2D
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/voronoi_sim_delanuay.png" width="600" height="600">
+<img src="Samples/Images/voronoi_sim_delanuay.png" width="600" height="600">
 </p>
 
 ### Quad Tree
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/QuadTree visualization.png" width="600" height="600">
+<img src="Samples/Images/QuadTree visualization.png" width="600" height="600">
 </p>
 
 ### Quad Tree Balancing
 
 <p align="center">
-<img src="https://github.com/kasunindikaliyanage/Jyamithika/blob/master/Samples/Images/QuadTree visualization_with_balancing.png" width="600" height="600">
+<img src="Samples/Images/QuadTree visualization_with_balancing.png" width="600" height="600">
 </p>
 
 ## License
