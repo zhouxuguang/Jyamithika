@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stack>
 #include <map>
+#include <list>
 #include "Core/GeoUtils.h"
 
 using namespace jmk;
@@ -168,4 +169,118 @@ void jmk::triangulate_earclipping(Polygon2dSimple* poly, std::vector<Edge2dSimpl
 			}
 		}
 	}
+}
+
+/*
+     InsideTriangle decides if a point P is Inside of the triangle
+     defined by A, B, C.
+   */
+bool InsideTriangle(float Ax, float Ay,
+                      float Bx, float By,
+                      float Cx, float Cy,
+                      float Px, float Py)
+
+{
+	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
+	float cCROSSap, bCROSScp, aCROSSbp;
+
+	ax = Cx - Bx;  ay = Cy - By;
+	bx = Ax - Cx;  by = Ay - Cy;
+	cx = Bx - Ax;  cy = By - Ay;
+	apx= Px - Ax;  apy= Py - Ay;
+	bpx= Px - Bx;  bpy= Py - By;
+	cpx= Px - Cx;  cpy= Py - Cy;
+
+	aCROSSbp = ax*bpy - ay*bpx;
+	cCROSSap = cx*apy - cy*apx;
+	bCROSScp = bx*cpy - by*cpx;
+
+	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
+};
+
+//自己实现的耳切割算法
+std::vector<uint32_t> jmk::triangulate_earClip(const std::vector<Point2d>& points, 
+		std::vector<float>& edgePoints)
+{
+    struct Vertex2D
+    {
+        Point2d point;
+        uint32_t index;
+    };
+    
+    std::list<Vertex2D> remainVertexs;
+    for (size_t i = 0; i < points.size(); i ++)
+    {
+        Vertex2D vertex;
+        vertex.point = points[i];
+        vertex.index = i;
+        remainVertexs.push_back(vertex);
+    }
+    
+    std::vector<uint32_t> indices;
+	typedef std::list<Vertex2D>::iterator VertexNode;
+
+	//初始化连续的三个顶点
+	VertexNode previousNode = remainVertexs.begin();
+    VertexNode node = std::next(previousNode);
+    VertexNode nextNode = std::next(node);
+
+	while (remainVertexs.size() > 3)
+	{
+		const Point2d& p0 = previousNode->point;
+		const Point2d& p1 = node->point;
+		const Point2d& p2 = nextNode->point;
+		if (left(p0, p1, p2))   //向左拐，凸的顶点
+		{
+			bool isEar = true;
+
+			//判断多边形中剩下的点是否在p0,p1,p2组成的三角形中
+			for (VertexNode n = (std::next(nextNode) != remainVertexs.end()) ? std::next(nextNode) : remainVertexs.begin();
+				n != previousNode;
+				n = (std::next(n) != remainVertexs.end()) ? std::next(n) : remainVertexs.begin())
+			{
+				if (InsideTriangle(p0[X], p0[Y], p1[X], p1[Y], p2[X], p2[Y], n->point[X], n->point[Y]))
+				{
+					isEar = false;
+					break;
+				}
+			}
+
+			if (isEar)
+			{
+				//增加三角形索引和移除当前的耳朵点
+				indices.push_back(previousNode->index);
+				indices.push_back(node->index);
+				indices.push_back(nextNode->index);
+                
+                //加入边数据的坐标
+                edgePoints.push_back(p0[X]);
+                edgePoints.push_back(p0[Y]);
+                edgePoints.push_back(p2[X]);
+                edgePoints.push_back(p2[Y]);
+				remainVertexs.erase(node);
+
+				//更新当前处理的顶点
+				node = nextNode;
+				nextNode = std::next(nextNode) != remainVertexs.end() ? std::next(nextNode) : remainVertexs.begin();
+				continue;
+			}
+		}
+		
+		//处理下一组点
+		previousNode = (std::next(previousNode) != remainVertexs.end()) ? std::next(previousNode) : remainVertexs.begin();
+        node = (std::next(node) != remainVertexs.end()) ? std::next(node) : remainVertexs.begin();
+        nextNode = (std::next(nextNode) != remainVertexs.end()) ? std::next(nextNode) : remainVertexs.begin();
+	}
+
+	previousNode = remainVertexs.begin();
+	node = std::next(previousNode);
+    nextNode = std::next(node);
+
+	indices.push_back(previousNode->index);
+	indices.push_back(node->index);
+	indices.push_back(nextNode->index);
+    
+    return std::move(indices);
+	
 }

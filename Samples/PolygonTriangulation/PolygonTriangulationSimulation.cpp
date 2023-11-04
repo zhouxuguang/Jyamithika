@@ -180,8 +180,10 @@ int main(void)
 	//Triangulation ear clipping
 	jmk::Polygon2dSimple poly_simple(points);
 	std::vector<jmk::Edge2dSimple> edge_list_ear;
-	triangulate_earclipping(&poly_simple, edge_list_ear);
-	get2DLinePointsFromEdgeList(edge_list_ear,trigulation_ear_clipping);
+//	triangulate_earclipping(&poly_simple, edge_list_ear);
+//	get2DLinePointsFromEdgeList(edge_list_ear,trigulation_ear_clipping);
+    
+    triangulate_earClip(points, trigulation_ear_clipping);
 
 
 	VertexArray VAO_points;

@@ -18,4 +18,7 @@ namespace jmk {
 	//// Triangulate the general polygon.
 	//// Internally first we partition the polygon in to monotone peices and then call the triangulate_monotone
 	//void triangulate_general(Polygon2d* poly);
+
+	std::vector<uint32_t> triangulate_earClip(const std::vector<Point2d>& points, 
+		std::vector<float>& edgePoints);
 }
