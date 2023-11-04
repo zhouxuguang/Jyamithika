@@ -85,6 +85,15 @@ void setup_pointcloud_2(std::vector<jmk::Point2d>& points)
 	points.push_back(jmk::Point2d(0.4, 0.6));
 }
 
+void setup_pointcloud_3(std::vector<jmk::Point2d>& points)
+{
+    points.push_back(jmk::Point2d(-0.5, -0.5));
+    points.push_back(jmk::Point2d(0.5, -0.5));
+    points.push_back(jmk::Point2d(0.5, 0.5));
+    points.push_back(jmk::Point2d(0.0, -0.2));
+    points.push_back(jmk::Point2d(-0.5, 0.5));
+}
+
 int main(void)
 {
 	std::srand(std::time(nullptr));
@@ -145,7 +154,7 @@ int main(void)
 	std::vector<float> trigulation_face_data;
 	std::vector<float> trigulation_ear_clipping;
 
-	setup_pointcloud(points);
+    setup_pointcloud_3(points);
 	getReactanglePointClouds(points, point_data);
 	
 	jmk::Polygon2d polygon(points);
