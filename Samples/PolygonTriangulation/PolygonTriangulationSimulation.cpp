@@ -154,7 +154,7 @@ int main(void)
 	std::vector<float> trigulation_face_data;
 	std::vector<float> trigulation_ear_clipping;
 
-    setup_pointcloud_3(points);
+    setup_pointcloud(points);
 	getReactanglePointClouds(points, point_data);
 	
 	jmk::Polygon2d polygon(points);

@@ -196,7 +196,7 @@ bool InsideTriangle(float Ax, float Ay,
 	bCROSScp = bx*cpy - by*cpx;
 
 	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
-};
+}
 
 //自己实现的耳切割算法
 std::vector<uint32_t> jmk::triangulate_earClip(const std::vector<Point2d>& points, 
