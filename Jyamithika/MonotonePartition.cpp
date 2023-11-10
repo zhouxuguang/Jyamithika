@@ -6,7 +6,8 @@
 
 using namespace jmk;
 
-enum class VERTEX_CATEGORY {
+enum class VERTEX_CATEGORY 
+{
 	START,
 	END,
 	REGULAR,
@@ -50,11 +51,14 @@ VERTEX_CATEGORY categorize_vertex(Vertex2dDCEL* vertex)
 	}
 }
 
-struct Vertex2dDCELWrapper {
+//hleper的定义
+struct Vertex2dDCELWrapper
+{
 	Vertex2dDCEL* vert;
 	VERTEX_CATEGORY category;
 };
 
+//包括边和helper信息
 struct Edge2dDCELWrapper {
 	Edge2dDCEL* edge;
 	Vertex2dDCELWrapper helper;
@@ -84,7 +88,7 @@ struct Vertex2DWrapperSort {
 		auto cur_pnt = current.vert->point;
 		auto ref_pnt = ref.vert->point;
 		if ((cur_pnt[Y] > ref_pnt[Y])
-			|| (cur_pnt[Y] == ref_pnt[Y]) && (cur_pnt[X] < ref_pnt[X]))
+			|| ((cur_pnt[Y] == ref_pnt[Y]) && (cur_pnt[X] < ref_pnt[X]) ))
 		{
 			return true;
 		}
@@ -118,9 +122,12 @@ static void handle_end_vertices(Vertex2dDCELWrapper& vertex
 	, std::set<Edge2dDCELWrapper*, SweepLineComparator>& sweep_line
 	, std::map<Edge2dDCEL*, Edge2dDCELWrapper*>& edge_mapper, Polygon2d* poly)
 {
-	auto edge_wrapper = edge_mapper[vertex.vert->incident_edge->prev];
+    //找到前一条边的helper的信息
+    Edge2dDCELWrapper* edge_wrapper = edge_mapper[vertex.vert->incident_edge->prev];
 	auto found = sweep_line.find(edge_wrapper);
-	auto helper = (*found)->helper;
+    
+    Edge2dDCELWrapper* foundHelper = *found;
+	auto helper = foundHelper->helper;
 	if (helper.category == VERTEX_CATEGORY::MERGE)
 		poly->split(vertex.vert, helper.vert);
 	sweep_line.erase(found);
@@ -232,6 +239,7 @@ static void handle_regular_vertices(Vertex2dDCELWrapper& vertex
 
 void jmk::get_monotone_polygons(Polygon2d* poly, std::vector<Polygon2d*>& mono_polies)
 {
+	// 将多边形的顶点放入数组中并按照y坐标从小到大排序
 	std::vector<Vertex2dDCELWrapper> vertices;
 	for (auto vertex : poly->getVertexList()) {
 		vertices.push_back(Vertex2dDCELWrapper{ vertex,categorize_vertex(vertex) });
@@ -245,8 +253,7 @@ void jmk::get_monotone_polygons(Polygon2d* poly, std::vector<Polygon2d*>& mono_p
 
 	SweepLineComparator comp(sweep_point);
 	std::set<Edge2dDCELWrapper*, SweepLineComparator> sweep_line(comp);
-	std::map<Edge2dDCEL*, Edge2dDCELWrapper*> edge_mapping;
-
+	std::map<Edge2dDCEL*, Edge2dDCELWrapper*> edge_mapping;   //记录边的helper
 	for (auto vertex : vertices)
 	{
 		sweep_point->assign(X, vertex.vert->point[X]);
@@ -293,5 +300,7 @@ void jmk::get_monotone_polygons(Polygon2d* poly, std::vector<Polygon2d*>& mono_p
 	}
 	
 	for(auto vertices : polygon_pieces_vertices)
-		mono_polies.push_back(new Polygon2d(vertices));
+    {
+        mono_polies.push_back(new Polygon2d(vertices));
+    }
 }

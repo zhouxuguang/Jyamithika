@@ -13,25 +13,30 @@ namespace jmk {
 	template<class type, size_t dim>
 	struct FaceDCEL;
 
-	template<class type = float, size_t dim = DIM3 >
-	struct VertexDCEL {
-		Vector<float, dim> point;								// Coordinates of the vertex
-		EdgeDCEL<type, dim>* incident_edge = nullptr;			// Incident edge to the vertex
+    //顶点数据结构
+	template<class type = float, size_t dim = DIM3>
+	struct VertexDCEL
+    {
+		Vector<float, dim> point;								// 顶点坐标
+		EdgeDCEL<type, dim>* incident_edge = nullptr;			// 从顶点出发的一条半边
 
 		VertexDCEL(Vector<type, dim>& _point) : point(_point) {}
 
-		void print() {
+		void print()
+        {
 			std::cout << "(" << point[X] << "," << point[Y] << ") \n";
 		}
 	};
 
-	template<class type = float, size_t dim = DIM3 >
-	struct EdgeDCEL {
-		VertexDCEL<type, dim>* origin = nullptr;
-		EdgeDCEL<type, dim>* twin = nullptr;
-		EdgeDCEL<type, dim>* next = nullptr;
-		EdgeDCEL<type, dim>* prev = nullptr;
-		FaceDCEL<type, dim>* incident_face = nullptr;
+    //半边数据结构
+	template<class type = float, size_t dim = DIM3>
+	struct EdgeDCEL
+    {
+		VertexDCEL<type, dim>* origin = nullptr;       //半边的起点
+		EdgeDCEL<type, dim>* twin = nullptr;           //半边的孪生边
+		EdgeDCEL<type, dim>* next = nullptr;           //半边的下一条边
+		EdgeDCEL<type, dim>* prev = nullptr;           //半边的上一条边
+		FaceDCEL<type, dim>* incident_face = nullptr;  //半边左侧的面，一般习惯性这样
 		int id;
 
 		EdgeDCEL() { id = -1; }
@@ -40,7 +45,8 @@ namespace jmk {
 			id = _id++;
 		};
 
-		VertexDCEL<type, dim>* destination() {
+		VertexDCEL<type, dim>* destination()
+        {
 			return twin->origin;
 		}
 
@@ -54,26 +60,32 @@ namespace jmk {
 		}
 	};
 
-	template<class type = float, size_t dim = DIM3 >
-	struct FaceDCEL {
-		EdgeDCEL<type, dim>* outer = nullptr;		// Pointer to one of the counter clockwise edges
-		std::vector<EdgeDCEL<type, dim>*> inner;	// Pointer to first halfedges which represnt holes.
+	template<class type = float, size_t dim = DIM3>
+	struct FaceDCEL
+    {
+		EdgeDCEL<type, dim>* outer = nullptr;		// 指向外部逆时针顺序的半边
+		std::vector<EdgeDCEL<type, dim>*> inner;	// 内部洞的半边列表
 
-		void print(){
+		void print()
+        {
 			if (outer)
 			{
 				auto edge_ptr = outer;
 				auto next_ptr = outer->next;
 
+                //先打印第一条边的起点
 				edge_ptr->origin->print();
-				while (next_ptr!=edge_ptr) {
+				while (next_ptr!=edge_ptr)
+                {
 					next_ptr->origin->print();
 					next_ptr = next_ptr->next;
 				}
 			}
 		}
 
-		std::vector<EdgeDCEL<type, dim>*> getEdgeList(){
+        //获得边的列表，即遍历出面的所有边
+		std::vector<EdgeDCEL<type, dim>*> getEdgeList()
+        {
 			std::vector<EdgeDCEL<type, dim>*> edge_list;
 			if (outer){
 				auto edge_ptr = outer;
@@ -104,9 +116,11 @@ namespace jmk {
 		}
 	};
 
-	template<class type = float, size_t dim = DIM3 >
-	class PolygonDCEL {
-		typedef Vector<type,dim> VectorNf;
+    //普通多边形的半边数据结构
+	template<class type = float, size_t dim = DIM3>
+	class PolygonDCEL
+    {
+		typedef Vector<type, dim> VectorNf;
 		std::vector<VertexDCEL<type, dim>*> vertex_list;
 		std::vector<EdgeDCEL<type, dim>*> edge_list;
 		std::vector<FaceDCEL<type, dim>*> face_list;
@@ -114,22 +128,22 @@ namespace jmk {
 		EdgeDCEL<type, dim>* empty_edge = new EdgeDCEL<type, dim>();
 	public:
 		
-		// Construct the double connected edge list using the given points.
-		// Assume the given points list is for polygon and have counter clockwise order 
+		// 构建双连接边列表，假设多边形的顶点顺序是逆时针
 		explicit PolygonDCEL(std::vector<VectorNf>&);
 
-		// Insert an edge between virtices _v1 and _v2 given that the edge lies completely inside the orginal polygon
+		// 在顶点v1，v2之间插入一条边，这个对角线完全位于原始多边形的内部
 		bool split(VertexDCEL<type, dim>* _v1, VertexDCEL<type, dim>* _v2);
 
-		// Join the two faces sepated by edge between _v1 and _v2
+		// 合并被v1,v2组成的边分裂的多边形
 		bool join(VertexDCEL<type, dim>* _v1, VertexDCEL<type, dim>* _v2);
 
-		// Return the all the vertices across all the faces.
+		// 返回所有面的所有顶点
 		std::vector<VertexDCEL<type, dim>*> getVertexList();
 
-		// Return all faces
+		// 返回所有的面列表
 		std::vector<FaceDCEL<type, dim>*> getFaceList();
 
+        //获得所有的边列表
 		std::vector<EdgeDCEL<type, dim>*> getEdgeList();
 
 		VertexDCEL<type, dim>* getVertex(VectorNf&);
@@ -150,16 +164,21 @@ namespace jmk {
 		if (size < 3)
 			return;
 
-		for (size_t i = 0; i < _points.size(); i++) {
+        //构建所有的顶点列表
+		for (size_t i = 0; i < _points.size(); i++)
+        {
 			vertex_list.push_back(new VertexDCEL<type, dim>(_points[i]));
 		}
 
-		for (size_t i = 0; i <= vertex_list.size() - 2; i++) {
+		for (size_t i = 0; i <= vertex_list.size() - 2; i++)
+        {
 			auto hfedge = new EdgeDCEL<type, dim>(vertex_list[i]);
 			auto edge_twin = new EdgeDCEL<type, dim>(vertex_list[i + 1]);
 			
+            //设置从顶点出发的半边
 			vertex_list[i]->incident_edge = hfedge;
 			
+            //互相设置孪生边
 			hfedge->twin = edge_twin;
 			edge_twin->twin = hfedge;
 			
@@ -167,6 +186,7 @@ namespace jmk {
 			edge_list.push_back(edge_twin);
 		}
 		
+        //最后一个点和第一个点的特殊处理
 		auto hfedge = new EdgeDCEL<type, dim>(vertex_list.back());
 		auto edge_twin = new EdgeDCEL<type, dim>(vertex_list.front());
 		
@@ -177,9 +197,9 @@ namespace jmk {
 
 		vertex_list[vertex_list.size() - 1]->incident_edge = hfedge;
 
-		// Set the prev and next for the element middle of the list ( 2 : size- 2)
-		for (size_t i = 2; i <= edge_list.size()-3; i++) {
-			
+		// 设置双向的链表
+		for (size_t i = 2; i <= edge_list.size()-3; i++)
+        {
 			if (i % 2 == 0) // Even case. Counter clockwise edges
 			{
 				edge_list[i]->next = edge_list[i + 2];	
@@ -206,13 +226,17 @@ namespace jmk {
 		FaceDCEL<type, dim>* f1 = new FaceDCEL<type, dim>();
 		FaceDCEL<type, dim>* f2 = new FaceDCEL<type, dim>();
 
+        //f1为逆时针的边
 		f1->outer = edge_list[0];
 		// f2 is unbounded face which wrap the f1. So f1 is a hole in f2. So have clockwise edges in innder edge list
+        
+        //f2是顺时针的边
 		f2->inner.push_back(edge_list[1]);
 
 		face_list.push_back(f1);
 		face_list.push_back(f2);
 
+        //设置每一条边左侧的面
 		f1->outer->incident_face = f1;
 		EdgeDCEL<type, dim>* edge = f1->outer->next;
 		while (edge != f1->outer)
@@ -221,7 +245,7 @@ namespace jmk {
 			edge = edge->next;
 		}
 
-		// f2->inner has halfedges connect in clockwise order
+		// 设置外部的边所关联的面列表
 		f2->inner[0]->incident_face = f2;
 		edge = f2->inner[0]->next;
 		while (edge != f2->inner[0])
@@ -373,12 +397,13 @@ namespace jmk {
 		return nullptr;
 	}
 
-	struct Vertex2DSortTBLR {
-		bool operator()(Vertex2dDCEL* ref1, Vertex2dDCEL* ref2) {
+	struct Vertex2DSortTBLR
+    {
+		bool operator()(Vertex2dDCEL* ref1, Vertex2dDCEL* ref2)
+        {
 			auto a = ref1->point;
 			auto b = ref2->point;
-			if ((a[Y] > b[Y])
-				|| (a[Y] == b[Y]) && (a[X] < b[X]))
+			if ((a[Y] > b[Y]) || ((a[Y] == b[Y]) && (a[X] < b[X])) )
 			{
 				return true;
 			}
