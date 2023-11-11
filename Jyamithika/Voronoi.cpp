@@ -64,7 +64,7 @@ struct EventComparator {
 	}
 };
 
-std::priority_queue< Event*, std::vector<Event*>,EventComparator> p_queue;
+std::priority_queue< Event*, std::vector<Event*>, EventComparator> p_queue;
 
 std::vector<Segment> segments;
 std::list<BeachLineItem*> beach_line;
