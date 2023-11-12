@@ -66,7 +66,9 @@ target_link_libraries(PolygonTriangulation PRIVATE Jyamithika
     ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
 
 #voronio 图以及d网 
-add_executable(Voronoi Samples/VoronoiDiragram/SimpleVoronoi2dSimulation.cpp)
+add_executable(Voronoi Samples/VoronoiDiragram/SimpleVoronoi2dSimulation.cpp
+                        Samples/VoronoiDiragram/DelaunayWarpper.cpp
+                        Samples/VoronoiDiragram/DelaunayWarpper.h)
 
 target_include_directories(Voronoi PUBLIC
                                                 ${CMAKE_SOURCE_DIR}
