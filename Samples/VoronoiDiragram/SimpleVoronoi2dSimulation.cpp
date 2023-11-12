@@ -24,6 +24,7 @@
 #include "Jyamithika/Core/Primitives/Bounds.h"
 #include "Jyamithika/Voronoi.h"
 #include "Jyamithika/delaunator.h"
+#include "Jyamithika/Delaunay.h"
 
 #include <algorithm>
 #include <chrono>
@@ -169,6 +170,8 @@ int main(void)
 	auto endTime = high_resolution_clock::now();
 	std::chrono::duration<double> diff = endTime - startTime;
 	std::cout << "Voronoi Diagram 2d construction time - " << diff.count() << std::endl;
+    
+    jmk::constructDelaunay_increment(points, edges);
 
 	get2DLinePointsFromEdgeList(edges, edge_data);
 	get2DLinePointsFromFaceEdgeList(edges, face_edge_data);

@@ -17,6 +17,7 @@ namespace jmk {
 	template<class type = float, size_t dim = DIM3>
 	struct VertexDCEL
     {
+        int index = 0;
 		Vector<float, dim> point;								// 顶点坐标
 		EdgeDCEL<type, dim>* incident_edge = nullptr;			// 从顶点出发的一条半边
 
@@ -60,11 +61,16 @@ namespace jmk {
 		}
 	};
 
+    //面的数据结构
 	template<class type = float, size_t dim = DIM3>
 	struct FaceDCEL
     {
 		EdgeDCEL<type, dim>* outer = nullptr;		// 指向外部逆时针顺序的半边
 		std::vector<EdgeDCEL<type, dim>*> inner;	// 内部洞的半边列表
+        
+        FaceDCEL()
+        {
+        }
 
 		void print()
         {
@@ -87,12 +93,14 @@ namespace jmk {
 		std::vector<EdgeDCEL<type, dim>*> getEdgeList()
         {
 			std::vector<EdgeDCEL<type, dim>*> edge_list;
-			if (outer){
+			if (outer)
+            {
 				auto edge_ptr = outer;
 				auto next_ptr = outer->next;
 				edge_list.push_back(edge_ptr);
 				edge_ptr->origin->print();
-				while (next_ptr != edge_ptr) {
+				while (next_ptr != edge_ptr)
+                {
 					edge_list.push_back(next_ptr);
 					next_ptr = next_ptr->next;
 				}
