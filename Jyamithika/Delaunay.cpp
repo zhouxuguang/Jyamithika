@@ -1,4 +1,8 @@
 #include "Delaunay.h"
+
+#include <unordered_map>
+#include <unordered_set>
+
 #include "Core/Primitives/Point.h"
 #include "Core/Primitives/PolygonDCEL.h"
 
@@ -37,6 +41,7 @@ private:
     std::vector<Edge2D*> edge_list;
     std::vector<Face2D*> face_list;
     
+    std::unordered_map<Face2D*, std::unordered_set<Vertex2D*>> mBuckets;
     
 };
 
@@ -120,6 +125,9 @@ void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector
     {
         printf("addr = %p\n", faceEdges[i]);
     }
+    
+    //设置顶点的bucket
+    std::unordered_set<Vertex2D*> allVertexs;
 }
 
 }
