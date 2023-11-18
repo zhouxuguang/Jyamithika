@@ -88,6 +88,17 @@ public:
         return nullptr;
     }
     
+    int getLeftVextexCount()
+    {
+        int count = 0;
+        for (auto &bucket : mBuckets)
+        {
+            count += bucket.second.size();
+        }
+        
+        return count;
+    }
+    
     //重新rebucket
     void Rebucket(std::vector<Face2D*> faces, const std::vector<Face2D*> &currentFaces)
     {
@@ -103,6 +114,15 @@ public:
                 }
                 iter->second.clear();
                 mBuckets.erase(iter);
+            }
+            
+            auto iterFace = std::find(face_list.begin(), face_list.end(), currentFaces[i]);
+            if (iterFace != face_list.end())
+            {
+                Face2D* face = *iterFace;
+                face_list.erase(iterFace);
+                delete face;
+                face = nullptr;
             }
         }
         
@@ -204,10 +224,15 @@ void InsertVertex(DelaunayMesh * dmesh, Face2D* currentFace,
     edgePC->incident_face = faceCAP;
     edgeCP->incident_face = faceBCP;
     
+    edgeAB->incident_face = faceABP;
+    edgeBC->incident_face = faceBCP;
+    edgeCA->incident_face = faceCAP;
+    
     dmesh->AddFace(faceABP);
     dmesh->AddFace(faceBCP);
     dmesh->AddFace(faceCAP);
     dmesh->AddVertex(p);
+    p->incident_edge = edgePA;
     
     std::vector<Face2D *> faces;
     faces.push_back(faceABP);
@@ -344,6 +369,9 @@ void SwapTest(DelaunayMesh * dmesh, Vertex2D* p,
             
             dmesh->AddEdge(edgePX);
             dmesh->AddEdge(edgeXP);
+            
+            delete edge->twin;
+            delete edge;
         }
     }
 }
@@ -446,6 +474,10 @@ void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector
     {
         //找到当前顶点对应的三角形
         Face2D* face = delaunayMesh->FindFace(vertex);
+        if (nullptr == face)
+        {
+            continue;
+        }
         
         std::vector<Vertex2D*> vertexs = face->getVertexs();
         assert(vertexs.size() == 3);
@@ -463,6 +495,7 @@ void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector
         
         //插入当前点
         InsertVertex(delaunayMesh, face, a, b, c, vertex, edgeAB, edgeBC, edgeCA);
+        printf("当前剩余的顶点个数 : %d\n", delaunayMesh->getLeftVextexCount());
         
         SwapTest(delaunayMesh, vertex, edgeAB, edgeBC, edgeCA);
     }
