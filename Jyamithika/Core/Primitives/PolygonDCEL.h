@@ -107,6 +107,21 @@ namespace jmk {
 			}
 			return edge_list;
 		}
+        
+        std::vector<VertexDCEL<float, dim>*> getVertexs()
+        {
+            std::vector<VertexDCEL<float, dim>*> point_list;
+            if (outer) {
+                auto edge_ptr = outer;
+                auto next_ptr = outer->next;
+                point_list.push_back(edge_ptr->origin);
+                while (next_ptr != edge_ptr) {
+                    point_list.push_back(next_ptr->origin);
+                    next_ptr = next_ptr->next;
+                }
+            }
+            return point_list;
+        }
 
 		std::vector<Vector<float, dim>> getPoints()
 		{

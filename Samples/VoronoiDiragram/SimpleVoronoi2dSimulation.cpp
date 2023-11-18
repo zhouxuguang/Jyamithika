@@ -79,6 +79,13 @@ void setup_pointcloud(std::vector<jmk::Point2d>& points)
 	std::unique(points.begin(), points.end());
 }
 
+void setup_pointcloud_2(std::vector<jmk::Point2d>& points)
+{
+    points.push_back(jmk::Point2d(-0.5, -0.5));
+    points.push_back(jmk::Point2d(0.5, -0.5));
+    points.push_back(jmk::Point2d(0.0, 0.5));
+}
+
 int testDelaunator()
 {
     /* x0, y0, x1, y1, ... */
@@ -161,7 +168,7 @@ int main(void)
 	std::vector<float> edge_data;
 	std::vector<float> face_edge_data;
 
-	setup_pointcloud(points);
+    setup_pointcloud(points);
 	getReactanglePointClouds(points, point_data);
 	jmk::BoundRectangle rect{ -1.0,1.0,1.0,-1.0 };
 	
