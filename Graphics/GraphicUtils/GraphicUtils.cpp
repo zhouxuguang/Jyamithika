@@ -113,6 +113,24 @@ void get2DLinePointsFromDCEL2d(std::vector<jmk::EdgeDCEL<float, DIM2>*>& edges, 
 	}
 }
 
+void get2DLinePointsFromFaceDCEL2d(std::vector<jmk::FaceDCEL<float, DIM2>*>& faces, std::vector<float>& data)
+{
+    for (const auto& face : faces)
+    {
+        std::vector<jmk::Point2d> points = face->getPoints();
+        for (size_t i = 0; i < points.size(); i ++)
+        {
+            size_t current = i;
+            size_t next = (i + 1) % points.size();
+            data.push_back(points[current][X]);
+            data.push_back(points[current][Y]);
+            data.push_back(points[next][X]);
+            data.push_back(points[next][Y]);
+        }
+        
+    }
+}
+
 void getGraphicDataFromPointsList(std::vector<jmk::Point2d>& points, std::vector<float>& data)
 {
 	for (const auto& point : points)

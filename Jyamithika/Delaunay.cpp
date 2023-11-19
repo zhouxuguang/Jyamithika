@@ -399,6 +399,8 @@ DelaunayMesh* constructDelaunay_increment(const std::vector<Point2d>& points)
     
     //最后删除多余的三角形
     delaunayMesh->DeleteOuterFace();
+    
+    return delaunayMesh;;
 }
 
 }

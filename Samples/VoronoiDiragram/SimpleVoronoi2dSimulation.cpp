@@ -178,10 +178,12 @@ int main(void)
 	std::chrono::duration<double> diff = endTime - startTime;
 	std::cout << "Voronoi Diagram 2d construction time - " << diff.count() << std::endl;
     
-    jmk::constructDelaunay_increment(points);
+    jmk::DelaunayMesh *dmesh = jmk::constructDelaunay_increment(points);
+    std::vector<jmk::Face2D*> faces = dmesh->GetFaces();
+    get2DLinePointsFromFaceDCEL2d(faces, face_edge_data);
 
 	get2DLinePointsFromEdgeList(edges, edge_data);
-	get2DLinePointsFromFaceEdgeList(edges, face_edge_data);
+	//get2DLinePointsFromFaceEdgeList(edges, face_edge_data);
 
 	VertexArray VAO_points;
 	VertexBuffer VBO_points(point_data.data(), point_data.size());

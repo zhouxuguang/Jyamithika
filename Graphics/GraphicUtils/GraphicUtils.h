@@ -36,6 +36,8 @@ void get2DLinePointsFromFaceEdgeList(std::vector<jmk::Edge2dSimple>& edges, std:
 
 void get2DLinePointsFromDCEL2d(std::vector<jmk::EdgeDCEL<float, DIM2>*>& edge_list, std::vector<float>& data);
 
+void get2DLinePointsFromFaceDCEL2d(std::vector<jmk::FaceDCEL<float, DIM2>*>& faces, std::vector<float>& data);
+
 void getGraphicDataFromPointsList(std::vector<jmk::Point2d>& points, std::vector<float>& data);
 
 void get2DLineData(jmk::Line2dStd line, std::vector<float>& data);

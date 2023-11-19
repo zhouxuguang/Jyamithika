@@ -84,6 +84,18 @@ class DelaunayMesh
 public:
     DelaunayMesh()
     {}
+    
+    std::vector<Face2D*> GetFaces()
+    {
+        std::vector<Face2D*> faces;
+        faces.reserve(face_list.size());
+        for (auto iter : face_list)
+        {
+            faces.push_back(iter);
+        }
+        
+        return faces;
+    }
 
     void AddVertex(Vertex2D *vertex)
     {
@@ -175,6 +187,7 @@ public:
     
     void DeleteOuterFace()
     {
+        std::unordered_set<Face2D*> resultFaces;
         for (auto iter = face_list.begin(); iter != face_list.end(); ++iter)
         {
             std::vector<Vertex2D* > vertexs = (*iter)->getVertexs();
@@ -190,13 +203,19 @@ public:
             if (foundOuter)
             {
                 Face2D* face = *iter;
-                auto iterNext = std::next(iter);
-                face_list.erase(iter);
-                iter = iterNext;
+//                auto iterNext = std::next(iter);
+//                face_list.erase(iter);
+//                iter = iterNext;
                 delete face;
+            }
+            else
+            {
+                resultFaces.insert(*iter);
             }
             
         }
+        
+        face_list.swap(resultFaces);
     }
     
     //重新rebucket
