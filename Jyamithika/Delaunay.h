@@ -37,7 +37,7 @@ namespace jmk
 
         return (dx * (ey * cp - bp * fy) -
                 dy * (ex * cp - bp * fx) +
-                ap * (ex * fy - ey * fx)) < 0.0;
+                ap * (ex * fy - ey * fx)) > 0.0;
     }
 
 // 判断点是否在三角形内部
