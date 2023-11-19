@@ -1,6 +1,8 @@
 # Jyamithika
 ## _Collection of Computational Geometry algorithms and simulations_
 
+本代码基于https://github.com/kasunindikaliyanage/Jyamithika修改，适配mac系统，并且增加了一些自己的算法实现，作为计算几何的算法实验平台。
+
 Jyamithika is a collection of algorithms, sample simulations, utilities which is intend for anyone who wants to learn computational geometry.
 Following are the major topics implemented
 - Algorithms for prmitive testing for intersection and distance queries in 2D and 3D geometry.
