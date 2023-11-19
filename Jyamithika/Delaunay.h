@@ -35,6 +35,18 @@ namespace jmk
                 ap * (ex * fy - ey * fx)) < 0.0;
     }
 
+// 判断点是否在三角形内部
+inline bool pointInTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float x, float y)
+{
+    bool b1, b2, b3;
+
+    b1 = ((y - y1) * (x2 - x1) - (x - x1) * (y2 - y1)) <= 0.0;
+    b2 = ((y - y2) * (x3 - x2) - (x - x2) * (y3 - y2)) <= 0.0;
+    b3 = ((y - y3) * (x1 - x3) - (x - x3) * (y1 - y3)) <= 0.0;
+
+    return ((b1 == b2) && (b2 == b3));
+}
+
 	// 随机增量算法构造三角网
 	void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector<Edge2dSimple>& edges);
 }

@@ -7,10 +7,10 @@
 #include "Core/Primitives/Point.h"
 #include "Core/Primitives/PolygonDCEL.h"
 
-extern bool InsideTriangle(float Ax, float Ay,
-                           float Bx, float By,
-                           float Cx, float Cy,
-                           float Px, float Py);
+extern bool InsideTriangle(double Ax, double Ay,
+                           double Bx, double By,
+                           double Cx, double Cy,
+                           double Px, double Py);
 
 namespace jmk
 {
@@ -129,6 +129,11 @@ public:
         //将rebucketVetexs分配到faces中
         std::vector<std::unordered_set<Vertex2D*>> buckets;
         buckets.resize(faces.size());
+        
+        int pointCount = rebucketVetexs.size();
+        
+        int bucketCount = 0;
+        
         for (size_t i = 0; i < faces.size(); i ++)
         {
             std::vector<Point2d> points = faces[i]->getPoints();
@@ -145,11 +150,16 @@ public:
                 if (InsideTriangle(ax, ay, bx, by, cx, cy, rebucketVetexs[j]->point[X], rebucketVetexs[j]->point[Y]))
                 {
                     buckets[i].insert(rebucketVetexs[j]);
+                    bucketCount ++;
                 }
             }
             
             mBuckets.emplace(faces[i], buckets[i]);
         }
+        
+        assert(pointCount == bucketCount);
+        
+        printf("pointCount = %d, rebucketCount = %d\n", pointCount, bucketCount);
     }
 
 private:
@@ -303,6 +313,22 @@ void SwapTest(DelaunayMesh * dmesh, Vertex2D* p,
         float py = p->point[Y];
         float xx = x->point[X];
         float xy = x->point[Y];
+        
+        /* if the pair of triangles doesn't satisfy the Delaunay condition
+            * (p1 is inside the circumcircle of [p0, pl, pr]), flip them,
+            * then do the same check/flip recursively for the new pair of triangles
+            *
+            *           pl                    pl
+            *          /||\                  /  \
+            *       al/ || \bl            al/    \a
+            *        /  ||  \              /      \
+            *       /  a||b  \    flip    /___ar___\
+            *     p0\   ||   /p1   =>   p0\---bl---/p1
+            *        \  ||  /              \      /
+            *       ar\ || /br             b\    /br
+            *          \||/                  \  /
+            *           pr                    pr
+         */
         
         if (in_circle(px, py, ax, ay, bx, by, xx, xy))
         {
@@ -461,10 +487,13 @@ void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector
     std::unordered_set<Vertex2D*> allVertexs;
     
     //将所有点先放入超级三角形中
+    int index = 0;
     for (const auto & point : points)
     {
         Point2d p = point;
         Vertex2D *vertex = new Vertex2D(p);
+        vertex->index = index;
+        index ++;
         allVertexs.insert(vertex);
     }
     delaunayMesh->InsertBucket(face, allVertexs);

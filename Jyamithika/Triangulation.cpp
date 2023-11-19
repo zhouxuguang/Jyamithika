@@ -175,14 +175,14 @@ void jmk::triangulate_earclipping(Polygon2dSimple* poly, std::vector<Edge2dSimpl
      InsideTriangle decides if a point P is Inside of the triangle
      defined by A, B, C.
    */
-bool InsideTriangle(float Ax, float Ay,
-                      float Bx, float By,
-                      float Cx, float Cy,
-                      float Px, float Py)
+bool InsideTriangle(double Ax, double Ay,
+                    double Bx, double By,
+                    double Cx, double Cy,
+                    double Px, double Py)
 
 {
-	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
-	float cCROSSap, bCROSScp, aCROSSbp;
+	double ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
+    double cCROSSap, bCROSScp, aCROSSbp;
 
 	ax = Cx - Bx;  ay = Cy - By;
 	bx = Ax - Cx;  by = Ay - Cy;
