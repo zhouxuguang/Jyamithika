@@ -178,7 +178,7 @@ int main(void)
 	std::chrono::duration<double> diff = endTime - startTime;
 	std::cout << "Voronoi Diagram 2d construction time - " << diff.count() << std::endl;
     
-    jmk::constructDelaunay_increment(points, edges);
+    jmk::constructDelaunay_increment(points);
 
 	get2DLinePointsFromEdgeList(edges, edge_data);
 	get2DLinePointsFromFaceEdgeList(edges, face_edge_data);

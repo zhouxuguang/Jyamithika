@@ -1,26 +1,13 @@
 #include "Delaunay.h"
 
-#include <unordered_map>
-#include <unordered_set>
-#include <queue>
-
 #include "Core/Primitives/Point.h"
 #include "Core/Primitives/PolygonDCEL.h"
 
-extern bool InsideTriangle(double Ax, double Ay,
-                           double Bx, double By,
-                           double Cx, double Cy,
-                           double Px, double Py);
+
 
 namespace jmk
 {
 constexpr float EPSILON = std::numeric_limits<float>::epsilon();
-
-
-typedef VertexDCEL<float, 2> Vertex2D;
-typedef EdgeDCEL<float, 2> Edge2D;
-typedef FaceDCEL<float, 2> Face2D;
-
 
 inline bool in_circle(
     const double ax,
@@ -46,130 +33,6 @@ inline bool in_circle(
             dy * (ex * cp - bp * fx) +
             ap * (ex * fy - ey * fx)) < 0.0;
 }
-
-class DelaunayMesh
-{
-public:
-    DelaunayMesh()
-    {}
-
-    void AddVertex(Vertex2D *vertex)
-    {
-        vertex_list.push_back(vertex);
-    }
-
-    void AddEdge(Edge2D* edge)
-    {
-        edge_list.push_back(edge);
-    }
-
-    void AddFace(Face2D* face)
-    {
-        face_list.push_back(face);
-    }
-    
-    void InsertBucket(Face2D* face, const std::unordered_set<Vertex2D*>& bucket)
-    {
-        mBuckets.insert(std::make_pair(face, bucket));
-    }
-    
-    Face2D* FindFace(Vertex2D* point)
-    {
-        for (auto &bucket : mBuckets)
-        {
-            auto iter = bucket.second.find(point);
-            if (iter != bucket.second.end())
-            {
-                bucket.second.erase(iter);
-                return bucket.first;
-            }
-        }
-        
-        return nullptr;
-    }
-    
-    int getLeftVextexCount()
-    {
-        int count = 0;
-        for (auto &bucket : mBuckets)
-        {
-            count += bucket.second.size();
-        }
-        
-        return count;
-    }
-    
-    //重新rebucket
-    void Rebucket(std::vector<Face2D*> faces, const std::vector<Face2D*> &currentFaces)
-    {
-        std::vector<Vertex2D*> rebucketVetexs;
-        for (size_t i = 0; i < currentFaces.size(); i ++)
-        {
-            auto iter = mBuckets.find(currentFaces[i]);
-            if (iter != mBuckets.end())
-            {
-                for (auto &iterVertex : iter->second)
-                {
-                    rebucketVetexs.push_back(iterVertex);
-                }
-                iter->second.clear();
-                mBuckets.erase(iter);
-            }
-            
-            auto iterFace = std::find(face_list.begin(), face_list.end(), currentFaces[i]);
-            if (iterFace != face_list.end())
-            {
-                Face2D* face = *iterFace;
-                face_list.erase(iterFace);
-                delete face;
-                face = nullptr;
-            }
-        }
-        
-        //将rebucketVetexs分配到faces中
-        std::vector<std::unordered_set<Vertex2D*>> buckets;
-        buckets.resize(faces.size());
-        
-        int pointCount = rebucketVetexs.size();
-        
-        int bucketCount = 0;
-        
-        for (size_t i = 0; i < faces.size(); i ++)
-        {
-            std::vector<Point2d> points = faces[i]->getPoints();
-            assert(points.size() == 3);
-            float ax = points[0][X];
-            float ay = points[0][Y];
-            float bx = points[1][X];
-            float by = points[1][Y];
-            float cx = points[2][X];
-            float cy = points[2][Y];
-            
-            for (size_t j = 0; j < rebucketVetexs.size(); j ++)
-            {
-                if (InsideTriangle(ax, ay, bx, by, cx, cy, rebucketVetexs[j]->point[X], rebucketVetexs[j]->point[Y]))
-                {
-                    buckets[i].insert(rebucketVetexs[j]);
-                    bucketCount ++;
-                }
-            }
-            
-            mBuckets.emplace(faces[i], buckets[i]);
-        }
-        
-        assert(pointCount == bucketCount);
-        
-        printf("pointCount = %d, rebucketCount = %d\n", pointCount, bucketCount);
-    }
-
-private:
-    std::vector<Vertex2D*> vertex_list;
-    std::vector<Edge2D*> edge_list;
-    std::vector<Face2D*> face_list;
-    
-    std::unordered_map<Face2D*, std::unordered_set<Vertex2D*>> mBuckets;
-    
-};
 
 void InsertVertex(DelaunayMesh * dmesh, Face2D* currentFace,
                   Vertex2D* a, Vertex2D* b, Vertex2D* c, Vertex2D* p,
@@ -244,16 +107,18 @@ void InsertVertex(DelaunayMesh * dmesh, Face2D* currentFace,
     dmesh->AddVertex(p);
     p->incident_edge = edgePA;
     
-    std::vector<Face2D *> faces;
-    faces.push_back(faceABP);
-    faces.push_back(faceBCP);
-    faces.push_back(faceCAP);
+    dmesh->RemoveFace(currentFace);
     
-    std::vector<Face2D *> currentFaces;
-    currentFaces.push_back(currentFace);
-    
-    //重新构造相关的桶
-    dmesh->Rebucket(faces, currentFaces);
+//    std::vector<Face2D *> faces;
+//    faces.push_back(faceABP);
+//    faces.push_back(faceBCP);
+//    faces.push_back(faceCAP);
+//
+//    std::vector<Face2D *> currentFaces;
+//    currentFaces.push_back(currentFace);
+//
+//    //重新构造相关的桶
+//    dmesh->Rebucket(faces, currentFaces);
 }
 
 Vertex2D* getRightVertex(Edge2D* edge)
@@ -385,7 +250,7 @@ void SwapTest(DelaunayMesh * dmesh, Vertex2D* p,
             std::vector<Face2D*> newFaces;
             newFaces.push_back(facePXB);
             newFaces.push_back(facePAX);
-            dmesh->Rebucket(newFaces, currentFaces);
+            //dmesh->Rebucket(newFaces, currentFaces);
             
             edgeQueue.push(edge->twin->next);
             edgeQueue.push(edge->twin->prev);
@@ -396,14 +261,17 @@ void SwapTest(DelaunayMesh * dmesh, Vertex2D* p,
             dmesh->AddEdge(edgePX);
             dmesh->AddEdge(edgeXP);
             
-            delete edge->twin;
-            delete edge;
+            dmesh->RemoveEdge(edge->twin);
+            dmesh->RemoveEdge(edge);
+            
+            dmesh->RemoveFace(leftFace);
+            dmesh->RemoveFace(rightFace);
         }
     }
 }
 
 // 随机增量算法构造三角网
-void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector<Edge2dSimple>& edges)
+DelaunayMesh* constructDelaunay_increment(const std::vector<Point2d>& points)
 {
     //先计算包围盒，构造一个巨大的三角形
     float max_x = std::numeric_limits<float>::lowest();
@@ -529,6 +397,8 @@ void constructDelaunay_increment(const std::vector<Point2d>& points, std::vector
         SwapTest(delaunayMesh, vertex, edgeAB, edgeBC, edgeCA);
     }
     
+    //最后删除多余的三角形
+    delaunayMesh->DeleteOuterFace();
 }
 
 }
