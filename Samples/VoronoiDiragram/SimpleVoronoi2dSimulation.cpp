@@ -182,8 +182,9 @@ int main(void)
     std::vector<jmk::Face2D*> faces = dmesh->GetFaces();
     get2DLinePointsFromFaceDCEL2d(faces, face_edge_data);
 
+    std::vector<float> face_edge_data1;
 	get2DLinePointsFromEdgeList(edges, edge_data);
-	//get2DLinePointsFromFaceEdgeList(edges, face_edge_data);
+	get2DLinePointsFromFaceEdgeList(edges, face_edge_data1);
 
 	VertexArray VAO_points;
 	VertexBuffer VBO_points(point_data.data(), point_data.size());
@@ -196,6 +197,10 @@ int main(void)
 	VertexArray VAO_face_edges;
 	VertexBuffer VBO_face_edge(face_edge_data.data(), face_edge_data.size());
 	VAO_face_edges.addVertexLayout(0, 2, GL_FALSE, 2 * sizeof(float), 0);
+    
+    VertexArray VAO_face_edges1;
+    VertexBuffer VBO_face_edge1(face_edge_data1.data(), face_edge_data1.size());
+    VAO_face_edges1.addVertexLayout(0, 2, GL_FALSE, 2 * sizeof(float), 0);
 
 	// TODO no need for multiple shaders. Just use uniforms. Currently we need to switch the shaders which adds 
 	// lots for overhead
@@ -203,7 +208,7 @@ int main(void)
 	ShaderProgram line_shader(line_shader_str);
 	ShaderProgram line2_shader(line2_shader_str);
 
-	bool show_points = true, show_voronoi = false, show_delanuay = false;
+	bool show_points = true, show_voronoi = false, show_delanuay = false, show_delanuay1 = false;
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -247,11 +252,21 @@ int main(void)
 			glLineWidth(0.5);
 			glDrawArrays(GL_LINES, 0, face_edge_data.size() / 2);
 		}
+        
+        if (show_delanuay1)
+        {
+            line2_shader.activeAsCurrentShader();
+            
+            VAO_face_edges1.bindVertexArray();
+            glLineWidth(0.8);
+            glDrawArrays(GL_LINES, 0, face_edge_data1.size() / 2);
+        }
 
 		ImGui::Begin(" Sample : Voronoi Diagram and Delaunay triangulation in 2d");
 		ImGui::Checkbox("Points", &show_points);
 		ImGui::Checkbox("Voronoi", &show_voronoi);
 		ImGui::Checkbox("Delaunay", &show_delanuay);
+        ImGui::Checkbox("Delaunay-V", &show_delanuay1);
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
