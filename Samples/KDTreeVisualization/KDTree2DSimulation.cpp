@@ -1,27 +1,28 @@
-#include "glad\glad.h"
-#include <GLFW\glfw3.h>
+#include "glad/glad.h"
+#include <GLFW/glfw3.h>
 #include <array>
 
-#include "GLM\glm.hpp"
-#include "GLM\gtc\matrix_transform.hpp"
-#include "GLM\gtc\type_ptr.hpp"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtc/type_ptr.hpp"
 
-#include "GraphicUtils\Imgui\imgui.h"
-#include "GraphicUtils\Imgui\imgui_impl_glfw.h"
-#include "GraphicUtils\Imgui\imgui_impl_opengl3.h"
+#include "GraphicUtils/Imgui/imgui.h"
+#include "GraphicUtils/Imgui/imgui_impl_glfw.h"
+#include "GraphicUtils/Imgui/imgui_impl_opengl3.h"
 
-#include "GraphicUtils\ShaderProgram.h"
-#include "GraphicUtils\VertexArray.h"
-#include "GraphicUtils\VertexBuffer.h"
-#include "GraphicUtils\GraphicUtils.h"
+#include "GraphicUtils/ShaderProgram.h"
+#include "GraphicUtils/VertexArray.h"
+#include "GraphicUtils/VertexBuffer.h"
+#include "GraphicUtils/GraphicUtils.h"
+#include "GraphicUtils/ShaderString.h"
 
-#include "GraphicUtils\Geometry\GFace.h"
-#include "GraphicUtils\Geometry\GPoint.h"
-#include "GraphicUtils\Geometry\GLine.h"
+#include "GraphicUtils/Geometry/GFace.h"
+#include "GraphicUtils/Geometry/GPoint.h"
+#include "GraphicUtils/Geometry/GLine.h"
 
-#include "Jyamithika\Core\Primitives\Point.h"
-#include "Jyamithika\MonotonePartition.h"
-#include "Jyamithika\Triangulation.h"
+#include "Jyamithika/Core/Primitives/Point.h"
+#include "Jyamithika/MonotonePartition.h"
+#include "Jyamithika/Triangulation.h"
 
 #include <algorithm>
 #include <chrono>
@@ -83,6 +84,9 @@ int main(void)
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
 		/* Create a windowed mode window and its OpenGL context */
 		window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "KDTrees Visualization", NULL, NULL);
@@ -116,7 +120,7 @@ int main(void)
 		//ImGui::StyleColorsClassic();
 
 		// Setup Platform/Renderer bindings
-		ImGui_ImplOpenGL3_Init("#version 130");
+		ImGui_ImplOpenGL3_Init("#version 330");
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 	}
 
@@ -140,8 +144,8 @@ int main(void)
 	VertexBuffer VBO_lines(line_data.data(), line_data.size());
 	VAO_points.addVertexLayout(0, 2, GL_FALSE, 2 * sizeof(float), 0);
 
-	ShaderProgram shader("C:/Users/intellect/source/repos/Jyamithika/Graphics/GraphicUtils/Shaders/triangle2d.shader");
-	ShaderProgram line_shader("C:/Users/intellect/source/repos/Jyamithika/Graphics/GraphicUtils/Shaders/generic_line.shader");
+	ShaderProgram shader(triangle2d_shader);
+	ShaderProgram line_shader(generic_line_shader);
 	unsigned int line_color_loc = line_shader.getUniformId("line_color");
 
 	glm::vec3 red = glm::vec3(0.95f, 0.02f, 0.03f);
