@@ -107,18 +107,20 @@ void InsertVertex(DelaunayMesh * dmesh, Face2D* currentFace,
     dmesh->AddVertex(p);
     p->incident_edge = edgePA;
     
-    dmesh->RemoveFace(currentFace);
+#ifdef USE_BUCKET
+    std::vector<Face2D *> faces;
+    faces.push_back(faceABP);
+    faces.push_back(faceBCP);
+    faces.push_back(faceCAP);
+
+    std::vector<Face2D *> currentFaces;
+    currentFaces.push_back(currentFace);
+
+    //重新构造相关的桶
+    dmesh->Rebucket(faces, currentFaces);
+#endif
     
-//    std::vector<Face2D *> faces;
-//    faces.push_back(faceABP);
-//    faces.push_back(faceBCP);
-//    faces.push_back(faceCAP);
-//
-//    std::vector<Face2D *> currentFaces;
-//    currentFaces.push_back(currentFace);
-//
-//    //重新构造相关的桶
-//    dmesh->Rebucket(faces, currentFaces);
+    dmesh->RemoveFace(currentFace);
 }
 
 Vertex2D* getRightVertex(Edge2D* edge)
@@ -247,10 +249,12 @@ void SwapTest(DelaunayMesh * dmesh, Vertex2D* p,
             edge->twin->next->incident_face = facePAX;
             edgeXP->incident_face = facePAX;
             
+#ifdef USE_BUCKET
             std::vector<Face2D*> newFaces;
             newFaces.push_back(facePXB);
             newFaces.push_back(facePAX);
-            //dmesh->Rebucket(newFaces, currentFaces);
+            dmesh->Rebucket(newFaces, currentFaces);
+#endif
             
             edgeQueue.push(edge->twin->next);
             edgeQueue.push(edge->twin->prev);

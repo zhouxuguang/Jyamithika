@@ -9,6 +9,8 @@
 #include <unordered_set>
 #include <queue>
 
+//#define USE_BUCKET
+
 // 
 namespace jmk
 {
@@ -141,7 +143,7 @@ public:
     
     Face2D* FindFace(Vertex2D* point)
     {
-#if 0
+#ifdef USE_BUCKET
         for (auto &bucket : mBuckets)
         {
             auto iter = bucket.second.find(point);
@@ -151,7 +153,7 @@ public:
                 return bucket.first;
             }
         }
-#endif
+#else
         for (auto iter : face_list)
         {
             std::vector<Point2d> points = iter->getPoints();
@@ -170,6 +172,7 @@ public:
                 return iter;
             }
         }
+#endif
         
         return nullptr;
     }
@@ -203,9 +206,6 @@ public:
             if (foundOuter)
             {
                 Face2D* face = *iter;
-//                auto iterNext = std::next(iter);
-//                face_list.erase(iter);
-//                iter = iterNext;
                 delete face;
             }
             else
