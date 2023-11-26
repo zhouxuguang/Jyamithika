@@ -317,28 +317,44 @@ DelaunayMesh* constructDelaunay_increment(const std::vector<Point2d>& points)
     
     //构造边数据
     Edge2D *edge12 = new Edge2D(vertex0);
-    //Edge2D *edge21 = new Edge2D(vertex1);
+    Edge2D *edge21 = new Edge2D(vertex1);
     
     Edge2D *edge23 = new Edge2D(vertex1);
-    //Edge2D *edge32 = new Edge2D(vertex2);
+    Edge2D *edge32 = new Edge2D(vertex2);
     
     Edge2D *edge31 = new Edge2D(vertex2);
-    //Edge2D *edge13 = new Edge2D(vertex0);
+    Edge2D *edge13 = new Edge2D(vertex0);
     
     edge12->next = edge23;
     edge12->prev = edge31;
-    edge12->twin = nullptr;
+    edge12->twin = edge21;
     
     edge23->next = edge31;
     edge23->prev = edge12;
-    edge23->twin = nullptr;
+    edge23->twin = edge32;
     
     edge31->next = edge12;
     edge31->prev = edge23;
-    edge31->twin = nullptr;
+    edge31->twin = edge13;
+    
+    edge21->next = edge13;
+    edge21->prev = edge32;
+    edge21->twin = edge12;
+    
+    edge32->next = edge21;
+    edge32->prev = edge13;
+    edge32->twin = edge23;
+    
+    edge13->next = edge32;
+    edge13->prev = edge21;
+    edge13->twin = edge31;
+    
     delaunayMesh->AddEdge(edge12);
     delaunayMesh->AddEdge(edge23);
     delaunayMesh->AddEdge(edge31);
+    delaunayMesh->AddEdge(edge21);
+    delaunayMesh->AddEdge(edge32);
+    delaunayMesh->AddEdge(edge13);
     
     //构造面数据
     Face2D *face = new Face2D();

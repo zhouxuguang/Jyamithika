@@ -200,6 +200,18 @@ public:
                 if (vertex->index < 0)
                 {
                     foundOuter = true;
+                    
+                    //删除顶点对应的边，这里先不删除了，会导致崩溃，最后对算法也是没有影响
+//                    std::vector<Edge2D *> edges = vertex->getOneRingEdge();
+//                    for (auto edge : edges)
+//                    {
+//                        auto iter = edge_list.find(edge);
+//                        if (iter != edge_list.end())
+//                        {
+//                            delete *iter;
+//                            edge_list.erase(iter);
+//                        }
+//                    }
                 }
             }
             

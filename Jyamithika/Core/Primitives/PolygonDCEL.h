@@ -22,6 +22,38 @@ namespace jmk {
 		EdgeDCEL<type, dim>* incident_edge = nullptr;			// 从顶点出发的一条半边
 
 		VertexDCEL(Vector<type, dim>& _point) : point(_point) {}
+        
+        //获得当前顶点的所有邻居
+        std::vector<VertexDCEL<type, dim>*> getOneRingVertex()
+        {
+            std::vector<VertexDCEL<type, dim>*> vertexResult;
+            EdgeDCEL<type, dim>* halfEdge = incident_edge;
+            EdgeDCEL<type, dim>* halfEdgeEnd = halfEdge;
+            do
+            {
+                VertexDCEL<type, dim> * v = halfEdge->origin;
+                vertexResult.push_back(v);
+                halfEdge = halfEdge->twin->next;
+            } while (halfEdge != halfEdgeEnd);
+            
+            return vertexResult;
+        }
+        
+        //获得当前顶点的所有邻居
+        std::vector<EdgeDCEL<type, dim>*> getOneRingEdge()
+        {
+            std::vector<EdgeDCEL<type, dim>*> edgeResult;
+            EdgeDCEL<type, dim>* halfEdge = incident_edge;
+            EdgeDCEL<type, dim>* halfEdgeEnd = halfEdge;
+            
+            do
+            {
+                edgeResult.push_back(halfEdge);
+                halfEdge = halfEdge->twin->next;
+            } while (halfEdge != halfEdgeEnd);
+            
+            return edgeResult;
+        }
 
 		void print()
         {
