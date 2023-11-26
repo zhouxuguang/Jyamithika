@@ -297,10 +297,15 @@ DelaunayMesh* constructDelaunay_increment(const std::vector<Point2d>& points)
     
     DelaunayMesh* delaunayMesh = new DelaunayMesh();
     
-    //构造巨大的三角形，包围住所有的点
-    Point2d p0 = Point2d(midX - 4 * maxExtent, midY - 4 * maxExtent);
-    Point2d p1 = Point2d(midX + 7 * maxExtent, midY - 4 * maxExtent);
-    Point2d p2 = Point2d(midX - 4 * maxExtent, midY + 7 * maxExtent);
+    //构造巨大的三角形，包围住所有的点，并且离本身的点集要足够远，避免影响三角网的构建
+    Point2d p0 = Point2d(midX - 100 * maxExtent, midY - 100 * maxExtent);
+    Point2d p1 = Point2d(midX + 100 * maxExtent, midY - 100 * maxExtent);
+    Point2d p2 = Point2d(midX, midY + 100 * maxExtent);
+  
+    //这个不行，会错乱
+//    Point2d p0 = Point2d(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest());
+//    Point2d p1 = Point2d(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
+//    Point2d p2 = Point2d(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::max());
     
     //构造顶点结构
     Vertex2D *vertex0 = new Vertex2D(p0);
