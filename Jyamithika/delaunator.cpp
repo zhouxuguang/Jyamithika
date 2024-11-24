@@ -1,6 +1,7 @@
 
 #include "delaunator.h"
 
+#include <assert.h>
 #include <iostream>
 
 #include <algorithm>

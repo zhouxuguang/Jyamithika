@@ -1,4 +1,5 @@
 #pragma once
+#include <assert.h>
 #include <vector>
 #include "Core/Primitives/Point.h"
 #include "Core/Primitives/Polygon.h"
