@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.2)
 set (CMAKE_CXX_STANDARD 17)
 
 project (Jyamithika)
@@ -37,12 +37,20 @@ add_library(Jyamithika OBJECT ${Jyamithika_core_base_source}
                             ${imgui_source}
                             ${GraphicUtils_source})
 
+if (WIN32)
+    set(GLFW_LIB_PATH Graphics/Externals/GLFW/libs/win)
+    set(GLFW_LIB_FILE ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/win/glfw3dll.lib)
+elseif (APPLE)
+    set(GLFW_LIB_PATH Graphics/Externals/GLFW/libs/mac)
+    set(GLFW_LIB_FILE ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
+endif ()
+
 target_include_directories(Jyamithika PUBLIC
                                             ${CMAKE_SOURCE_DIR}
                                             Graphics/Externals/GLFW/include
                                             Graphics/Externals/GLAD/include
                                             Graphics/Externals)
-target_link_directories(Jyamithika PUBLIC Graphics/Externals/GLFW/libs/mac)
+target_link_directories(Jyamithika PUBLIC ${GLFW_LIB_PATH})
 #target_link_libraries(Jyamithika PUBLIC glfw3)
 
 add_executable(Convexhull2D Samples/Convexhull2D/ConstructingConvexhull_2d_simulation.cpp)
@@ -50,20 +58,18 @@ add_executable(Convexhull2D Samples/Convexhull2D/ConstructingConvexhull_2d_simul
 target_include_directories(Convexhull2D PUBLIC
                                             ${CMAKE_SOURCE_DIR}
                                             ${CMAKE_SOURCE_DIR}/Graphics)
-target_link_directories(Convexhull2D PUBLIC Graphics/Externals/GLFW/libs/mac)
+target_link_directories(Convexhull2D PUBLIC ${GLFW_LIB_PATH})
 
-target_link_libraries(Convexhull2D PRIVATE Jyamithika 
-    ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
+target_link_libraries(Convexhull2D PRIVATE Jyamithika ${GLFW_LIB_FILE})
 
 add_executable(PolygonTriangulation Samples/PolygonTriangulation/PolygonTriangulationSimulation.cpp)
 
 target_include_directories(PolygonTriangulation PUBLIC
                                             ${CMAKE_SOURCE_DIR}
                                             ${CMAKE_SOURCE_DIR}/Graphics)
-target_link_directories(PolygonTriangulation PUBLIC Graphics/Externals/GLFW/libs/mac)
+target_link_directories(PolygonTriangulation PUBLIC ${GLFW_LIB_PATH})
 
-target_link_libraries(PolygonTriangulation PRIVATE Jyamithika 
-    ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
+target_link_libraries(PolygonTriangulation PRIVATE Jyamithika ${GLFW_LIB_FILE})
 
 #voronio 图以及d网 
 add_executable(Voronoi Samples/VoronoiDiragram/SimpleVoronoi2dSimulation.cpp
@@ -73,10 +79,9 @@ add_executable(Voronoi Samples/VoronoiDiragram/SimpleVoronoi2dSimulation.cpp
 target_include_directories(Voronoi PUBLIC
                                                 ${CMAKE_SOURCE_DIR}
                                                 ${CMAKE_SOURCE_DIR}/Graphics)
-target_link_directories(Voronoi PUBLIC Graphics/Externals/GLFW/libs/mac)
+target_link_directories(Voronoi PUBLIC ${GLFW_LIB_PATH})
     
-target_link_libraries(Voronoi PRIVATE Jyamithika 
-        ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
+target_link_libraries(Voronoi PRIVATE Jyamithika ${GLFW_LIB_FILE})
 
 #voronio 图以及d网 
 add_executable(KDTree Samples/KDTreeVisualization/KDTree2DSimulation.cpp)
@@ -84,7 +89,10 @@ add_executable(KDTree Samples/KDTreeVisualization/KDTree2DSimulation.cpp)
 target_include_directories(KDTree PUBLIC
                                                 ${CMAKE_SOURCE_DIR}
                                                 ${CMAKE_SOURCE_DIR}/Graphics)
-target_link_directories(KDTree PUBLIC Graphics/Externals/GLFW/libs/mac)
+target_link_directories(KDTree PUBLIC ${GLFW_LIB_PATH})
     
-target_link_libraries(KDTree PRIVATE Jyamithika 
-        ${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/mac/libglfw.3.dylib)
+target_link_libraries(KDTree PRIVATE Jyamithika ${GLFW_LIB_FILE})
+
+if (WIN32)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Externals/GLFW/libs/win/glfw3.dll ${CMAKE_CURRENT_BINARY_DIR}/glfw3.dll COPYONLY)
+endif()

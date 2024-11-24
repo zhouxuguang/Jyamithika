@@ -106,6 +106,8 @@ int testDelaunator()
             d.coords[2 * d.triangles[i + 2] + 1] //ty2
         );
     }
+
+	return 0;
 }
 
 
